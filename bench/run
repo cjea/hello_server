@@ -1,0 +1,3 @@
+set -x
+env NAME=test NUM_REQUESTS=500 NUM_WORKERS=10 \
+./main
