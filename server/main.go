@@ -19,18 +19,18 @@ func withLogs(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func main() {
-	port := mustEnv("PORT")
-	vdb, err := postgres.NewVisitsDB(mustEnv("DATABASE_URL"))
+	vdb, err := postgres.NewPurchaseDB(mustEnv("DATABASE_URL"))
 	if err != nil {
-		log.Fatalf("failed to create HelloRequestDB: %v", err)
+		panic(err)
 	}
 	defer vdb.DB.Close()
 
 	mux := http.NewServeMux()
-	mux.Handle("/hello", withLogs(handle.HelloHandler(vdb)))
+	mux.Handle("/authorize", handle.PurchasesHandler(vdb))
 
-	log.Printf("Listening on port %s", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf("127.0.0.1:%s", port), mux))
+	fmt.Printf("Hello, world!")
+	log.Printf("Listening on port 8080")
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("127.0.0.1:8080"), mux))
 }
 
 func mustEnv(key string) string {

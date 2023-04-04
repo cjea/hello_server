@@ -12,3 +12,7 @@ type VisitRecorderCounter interface {
 	VisitRecorder
 	VisitCounter
 }
+
+type PurchaseAllower interface {
+	IsAllowed(cardNumber string, cents uint64) (bool, error)
+}
